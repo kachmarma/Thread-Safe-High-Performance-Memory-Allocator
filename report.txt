@@ -1,0 +1,39 @@
+Written by Matthew Kachmar and Jonathan Zybert
+Attribution Credit: Nat Tuck
+
++------+---------------------+
+|      | hw7   | sys  | par  |
++------+---------------------+
+| list | >100  | 0.08 | 0.25 |
++------+---------------------+
+| ivec | 30.43 | 0.03 | 0.08 |
++------+---------------------+
+
+hw7 was tests with 1000
+sys & par were tested with 5000
+
+Test System:
+Ubuntu Linux 14.04 Desktop VM
+Linux version 3.13.0 64-bit
+Intel Core i7-4980HQ CPU @ 2.80GHz
+
+Strategy:
+Per-thread arenas
+Bins
+
+We implemented bins of sizes {32, 64, 128, 256, 512, 1024, 2056}
+which is the arena in each thread. Using bins allows constant-
+time access to get free memory. Using per-thread arenas removes
+the lock contention between threads.
+
+hw7 ran with an input of 1000 took significantly longer than the
+other two. This is because of all the lock contention between
+thread accessing the same data.
+
+sys and par were both run with an input of 5000. sys still beat
+par even with par's binning and per-thread arenas.
+
+TODO:
+Try to keep the list in sorted order to prevent so many calls to coalesce and
+sort. This would result in a significant performance increase.:x
+
